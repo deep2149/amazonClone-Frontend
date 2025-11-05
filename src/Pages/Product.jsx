@@ -38,7 +38,7 @@ export default function Products() {
   }, [search]);
 
   return (
-    <div className="py-8">
+    <div className="py-8 w-fu">
       <div>
         {/* Search bar */}
         <div className="flex justify-center mb-8">

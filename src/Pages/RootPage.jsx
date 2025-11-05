@@ -14,13 +14,11 @@ export default function RootPage() {
 //   };
 
   return (
-    <div className="flex min-h-screen">
-      <div className="flex">
-              <Navbar />
-
+    <div className="min-h-screen flex flex-col w-full">
+      <Navbar />
+      <main className="flex-1">
         <Outlet /> {/* ✅ nested routes will render here */}
-        
-      </div>
+      </main>
     </div>
   );
 }
