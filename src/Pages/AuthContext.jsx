@@ -1,43 +1,71 @@
-// import { setAuthToken } from "@/utils/api";
-import { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
+import { api } from "@/utils/api";
 
+const AuthContext = createContext(null);
 
-export const AuthContext = createContext();
+const STORAGE_TOKEN_KEY = "auth_token";
+const STORAGE_USER_KEY = "user_data";
 
-export const AuthProvider = ({ children }) => {
+export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
-    const [token, setToken] = useState(null);
+    const [users, setUsers] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    // Initialize token from localStorage on mount
-    useEffect(() => {
-        const saved = localStorage.getItem("token");
-        if (saved) setToken(saved);
+    // Fetch user from /me endpoint
+    const fetchUser = useCallback(async () => {
+        const token = localStorage.getItem(STORAGE_TOKEN_KEY);
+        if (!token) {
+            setLoading(false);
+            return;
+        }
+
+        try {
+            const response = await api.get("/me");
+            const userData = response.data.data;
+            setUser(userData);
+            localStorage.setItem(STORAGE_USER_KEY, JSON.stringify(userData));
+        } catch (error) {
+            console.error("Failed to fetch user:", error);
+            // Clear invalid token
+            localStorage.removeItem(STORAGE_TOKEN_KEY);
+            localStorage.removeItem(STORAGE_USER_KEY);
+            setUser(null);
+        } finally {
+            setLoading(false);
+        }
     }, []);
 
-    // Keep axios defaults in sync whenever token changes
-    // useEffect(() => {
-    //     // if (token) setAuthToken(token);
-    //     else setAuthToken(null);
-    // }, [token]);
+    // Initialize auth state on mount
+    useEffect(() => {
+        fetchUser();
+    }, [fetchUser]);
 
-    const login = (userData, newToken) => {
-        setUser(userData);
-        setToken(newToken);
-        localStorage.setItem("token", newToken);
-    };
+    const login = useCallback(async (token) => {
+        localStorage.setItem(STORAGE_TOKEN_KEY, token);
+        await fetchUser();
+    }, [fetchUser]);
 
-    const logout = () => {
+    const logout = useCallback(() => {
+        localStorage.removeItem(STORAGE_TOKEN_KEY);
+        localStorage.removeItem(STORAGE_USER_KEY);
         setUser(null);
-        setToken(null);
-        localStorage.removeItem("token");
-    };
+    }, []);
 
     const value = {
         user,
-        token,
+        loading,
         login,
+        fetchUser,
         logout,
+        isAuthenticated: !!user,
+        role: user?.role || null,
     };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-};
+}
+
+export function useAuth() {
+    const ctx = useContext(AuthContext);
+    if (!ctx) throw new Error("useAuth must be used within AuthProvider");
+    return ctx;
+}

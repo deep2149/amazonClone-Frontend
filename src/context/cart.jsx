@@ -51,8 +51,9 @@ export const CartProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    if(cartItems.length>0){
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
-  }, [cartItems]);
+}}, [cartItems]);
 
   useEffect(() => {
     const cartItems = localStorage.getItem("cartItems");
@@ -76,3 +77,8 @@ export const CartProvider = ({ children }) => {
     </CartContext.Provider>
   );
 };
+
+
+//  const AddToCart=async()=>{
+//     setQuantity()
+//   }
