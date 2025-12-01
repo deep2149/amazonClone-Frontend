@@ -1,15 +1,16 @@
 import axios from "axios";
 
+const baseURL = "http://localhost:3001/api";
 
-const baseURL= 'http://localhost:3001/api'
-
-export const api= axios.create({
-    baseURL,
+export const api = axios.create({
+  baseURL,
+  // headers:{
+  //     "Content-Type": "application/json"
+  // }
     headers:{
-        "Content-Type": "application/json"
-    }
-})
-
+      "Content-Type": "multipart/form-data"
+  }
+});
 
 api.interceptors.request.use(
   (config) => {
@@ -21,7 +22,7 @@ api.interceptors.request.use(
     return config;
   },
   (error) => Promise.reject(error)
-)
+);
 
 // Response interceptor - handle auth errors globally
 api.interceptors.response.use(
@@ -31,7 +32,7 @@ api.interceptors.response.use(
       // Token expired or invalid - clear auth state
       localStorage.removeItem("auth_token");
       localStorage.removeItem("user_data");
-      
+
       // Only redirect if not already on a login page
       if (!window.location.pathname.includes("/login")) {
         window.location.href = "/user/login";
@@ -40,5 +41,3 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
-

@@ -15,7 +15,7 @@ export default function Navbar({isAdmin=false}) {
           <div className="flex h-14 items-center justify-between">
             <div className="flex items-center gap-2">
               <Link to="/admin/home" className="text-lg font-semibold">
-                Shop
+                Amazon-Clone
               </Link>
             </div>
             {isAdmin ?(

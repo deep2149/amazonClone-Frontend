@@ -4,13 +4,18 @@ import { Button } from "@/components/ui/button";
 
 export default function AdminProducts() {
   const [products, setProducts] = useState([]);
-  const [form, setForm] = useState({ title: "", description: "", stock: "", price: "" });
+  const [form, setForm] = useState({
+    title: "",
+    description: "",
+    stock: "",
+    price: "",
+  });
   const [loading, setLoading] = useState(false);
   const [editingId, setEditingId] = useState(null);
 
   const fetchProducts = async () => {
     try {
-      const res = await api.get("/admin/product"); 
+      const res = await api.get("/admin/product");
       setProducts(res.data.products || []);
     } catch (error) {
       console.error("Failed to fetch products:", error);
@@ -35,7 +40,13 @@ export default function AdminProducts() {
         await api.post("/admin", { ...form, images: [] });
       }
       fetchProducts();
-      setForm({ title: "", description: "", stock: "", price: "" });
+      setForm({
+        title: "",
+        description: "",
+        stock: "",
+        price: "",
+        categoryId: "",
+      });
       setEditingId(null);
     } catch (error) {
       console.error("Error saving product:", error);
@@ -60,6 +71,7 @@ export default function AdminProducts() {
       description: product.description,
       stock: Number(product.stock),
       price: product.price,
+      categoryId: product.categoryId,
     });
     setEditingId(product.id);
   };
@@ -69,10 +81,52 @@ export default function AdminProducts() {
       <h2 className="text-2xl font-bold mb-4">Manage Products</h2>
 
       <form onSubmit={handleSubmit} className="space-y-3 mb-6">
-        <input name="title" value={form.title} onChange={handleChange} placeholder="Title" className="w-full border p-2 rounded" />
-        <input name="description" value={form.description} onChange={handleChange} placeholder="Description" className="w-full border p-2 rounded" />
-        <input name="stock" value={form.stock} onChange={handleChange} placeholder="Stock" type="number" className="w-full border p-2 rounded" />
-        <input name="price" value={form.price} onChange={handleChange} placeholder="Price" type="number" className="w-full border p-2 rounded" />
+        <input
+          name="title"
+          value={form.title}
+          onChange={handleChange}
+          placeholder="Title"
+          className="w-full border p-2 rounded"
+        />
+        <input
+          name="description"
+          value={form.description}
+          onChange={handleChange}
+          placeholder="Description"
+          className="w-full border p-2 rounded"
+        />
+        <input
+          name="stock"
+          value={form.stock}
+          onChange={handleChange}
+          placeholder="Stock"
+          type="number"
+          className="w-full border p-2 rounded"
+        />
+        <input
+          name="price"
+          value={form.price}
+          onChange={handleChange}
+          placeholder="Price"
+          type="number"
+          className="w-full border p-2 rounded"
+        />
+        {/* <input name="categoryId" value={form.categoryId} onChange={handleChange} placeholder="CategoryId" type="string" className="w-full border p-2 rounded" /> */}
+        <select
+          name="categoryId"
+          id=""
+          value={form.categoryId}
+          onChange={handleChange}
+          placeholder="CategoryId"
+          type="dropdown"
+          className="w-full border p-2 rounded"
+        >
+          <option value="">Category Id</option>
+          <option value="">1</option>
+          <option value="">2</option>
+          <option value="">3</option>
+          <option value="">4</option>
+        </select>
 
         <Button className="text-black" type="submit" disabled={loading}>
           {loading ? "Saving..." : editingId ? "Update Product" : "Add Product"}
@@ -81,14 +135,27 @@ export default function AdminProducts() {
 
       <div className="grid gap-4">
         {products.map((p) => (
-          <div key={p.id} className="border p-4 rounded flex justify-between items-center">
+          <div
+            key={p.id}
+            className="border p-4 rounded flex justify-between items-center"
+          >
             <div>
               <h3 className="font-semibold">{p.title}</h3>
-              <p className="text-sm text-gray-500">Stock: {p.stock} | ₹{p.price}</p>
+              <p className="text-sm text-gray-500">
+                Stock: {p.stock} | ₹{p.price}
+              </p>
             </div>
             <div className="flex gap-2">
-              <Button variant="outline" onClick={() => handleEdit(p)}>Edit</Button>
-              <Button className="text-black" variant="destructive" onClick={() => handleDelete(p.id)}>Delete</Button>
+              <Button variant="outline" onClick={() => handleEdit(p)}>
+                Edit
+              </Button>
+              <Button
+                className="text-black"
+                variant="destructive"
+                onClick={() => handleDelete(p.id)}
+              >
+                Delete
+              </Button>
             </div>
           </div>
         ))}
