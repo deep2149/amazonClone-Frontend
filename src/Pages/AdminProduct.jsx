@@ -4,11 +4,13 @@ import { Button } from "@/components/ui/button";
 
 export default function AdminProducts() {
   const [products, setProducts] = useState([]);
+  const [categories, setCategories]=useState([]);
   const [form, setForm] = useState({
     title: "",
     description: "",
     stock: "",
     price: "",
+    categoryId: "",
   });
   const [loading, setLoading] = useState(false);
   const [editingId, setEditingId] = useState(null);
