@@ -11,7 +11,6 @@ export default function AdminOrders() {
     items: [{ productId: "", price: "", quantity: "" }],
   });
 
-
   const fetchOrders = async () => {
     try {
       const res = await api.get("/admin/myOrder");
@@ -25,7 +24,6 @@ export default function AdminOrders() {
     fetchOrders();
   }, []);
 
-
   const handleStatusChange = async (orderId, newStatus) => {
     try {
       setLoading(true);
@@ -38,7 +36,6 @@ export default function AdminOrders() {
     }
   };
 
-
   const handleDelete = async (orderId) => {
     if (!window.confirm("Are you sure you want to delete this order?")) return;
     try {
@@ -49,7 +46,6 @@ export default function AdminOrders() {
     }
   };
 
-
   const addItemField = () => {
     setNewOrder({
       ...newOrder,
@@ -57,13 +53,11 @@ export default function AdminOrders() {
     });
   };
 
-
   const handleItemChange = (index, field, value) => {
     const updatedItems = [...newOrder.items];
     updatedItems[index][field] = value;
     setNewOrder({ ...newOrder, items: updatedItems });
   };
-
 
   // const handleCreateOrder = async (e) => {
   //   e.preventDefault();
@@ -91,12 +85,7 @@ export default function AdminOrders() {
     <div className="p-6 max-w-5xl mx-auto">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">Manage Orders</h2>
-   
       </div>
-
-
-      
-
 
       {orders.length === 0 ? (
         <p>No orders found.</p>
@@ -122,7 +111,7 @@ export default function AdminOrders() {
                     <option value="DELIVERED">Delivered</option>
                   </select>
                   <Button
-                  className="text-black"
+                    className="text-black"
                     variant="destructive"
                     onClick={() => handleDelete(o.id)}
                     disabled={loading}

@@ -5,7 +5,7 @@ import {Card} from "@/components/ui/card";
 export default function Dashboard(){
     const [orderCount , setOrderCount] = useState(0)
     const [loading, setLoading] = useState(true);
-    const [error, setError] =useState("")
+    // const [error, setError] =useState("")
 
     useEffect(()=>{
         const fetchCounts= async()=>{

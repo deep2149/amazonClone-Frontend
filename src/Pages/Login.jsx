@@ -34,7 +34,7 @@ export default function LoginForm() {
   return (
     <>
       <form onSubmit={handleSubmit}>
-        <p>Login Form</p>
+        <p className="text-2xl text-red-600">Login Form</p>
         <div>
         <input
           type="text"

@@ -1,10 +1,10 @@
 // import { Button } from "@/Components/ui/button";
 // import { useAuth } from "@/Pages/AuthContext";
 // import Sidebar from "./Sidebar";
-import { useNavigate, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
 
-export default function RootPage() {
+export default function RootPage({ isAdmin=false }) {
 //   const { logout, user } = useAuth();
 //   const navigate = useNavigate();
 
@@ -15,7 +15,7 @@ export default function RootPage() {
 
   return (
     <div className="min-h-screen flex flex-col w-full">
-      <Navbar />
+      <Navbar isAdmin={isAdmin ? true : false} />
       <main className="flex-1">
         <Outlet /> {/* ✅ nested routes will render here */}
       </main>

@@ -79,8 +79,8 @@ export default function AuthForm({ isAdmin = false }) {
     };
 
     return (
-        <div className="p-4 border rounded flex justify-center items-center min-h-screen flex-col">
-            <h2 className="text-5xl mb-20">
+        <div className="p-4 border rounded flex justify-center items-center min-h-screen w-screen flex-col">
+            <h2 className="text-5xl mb-20 text-blue-600 font-bold">
                 {isAdmin ? "Admin" : "User"} {isLogin ? "Login" : "Sign Up"}
             </h2>
             <form onSubmit={handleSubmit} noValidate className="w-full max-w-md">

@@ -7,14 +7,14 @@ import  {CartContext}  from "@/context/cart";
 
 export default function Navbar({isAdmin=false}) {
     const { cartItems }= useContext(CartContext)
-
+ 
   return (
     <>
       <nav className="min-w-screen border-b bg-white">
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="flex h-14 items-center justify-between">
             <div className="flex items-center gap-2">
-              <Link to="/" className="text-lg font-semibold">
+              <Link to="/admin/home" className="text-lg font-semibold">
                 Shop
               </Link>
             </div>
@@ -31,6 +31,11 @@ export default function Navbar({isAdmin=false}) {
                   Product
                 </Link>
               </li>
+              <li>
+                <Link to="/admin/AdminCategory" className="hover:text-gray-700">
+                  Category
+                </Link>
+              </li>
             </ul>
             ):(<ul className="hidden md:flex items-center gap-6 text-sm">
               <li>
@@ -44,6 +49,11 @@ export default function Navbar({isAdmin=false}) {
                   Products
                 </Link>
               </li>
+               {/* <li>
+                <Link to="/user/UserCategory" className="hover:text-gray-700">
+                  Category
+                </Link>
+              </li> */}
             </ul>)}
             
 
