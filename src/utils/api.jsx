@@ -4,12 +4,12 @@ const baseURL = "http://localhost:3001/api";
 
 export const api = axios.create({
   baseURL,
-  // headers:{
-  //     "Content-Type": "application/json"
-  // }
-    headers:{
-      "Content-Type": "multipart/form-data"
+  headers:{
+      "Content-Type": "application/json"
   }
+  //   headers:{
+  //     "Content-Type": "multipart/form-data"
+  // }
 });
 
 api.interceptors.request.use(

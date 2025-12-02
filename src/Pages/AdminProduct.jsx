@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 
 export default function AdminProducts() {
   const [products, setProducts] = useState([]);
-  const [categories, setCategories]=useState([]);
+  const [categories, setCategories]= useState([]);
   const [form, setForm] = useState({
     title: "",
     description: "",
@@ -24,8 +24,20 @@ export default function AdminProducts() {
     }
   };
 
+  const fetchCategory= async()=>{
+    try{
+      const res= await api.get("/admin/category");
+      console.log(res.data);
+      setCategories(res.data?.category || []);
+    }catch(error){
+      console.error("Failed to fetch categories", error);
+      setCategories([]);   //fallback
+    }
+  }
+
   useEffect(() => {
     fetchProducts();
+    fetchCategory();
   }, []);
 
   const handleChange = (e) => {
@@ -124,10 +136,11 @@ export default function AdminProducts() {
           className="w-full border p-2 rounded"
         >
           <option value="">Category Id</option>
-          <option value="">1</option>
-          <option value="">2</option>
-          <option value="">3</option>
-          <option value="">4</option>
+          {categories.map((cat)=>(  
+             <option key={cat.id} value={cat.id}>
+              {cat.name} 
+             </option>        
+          ))}
         </select>
 
         <Button className="text-black" type="submit" disabled={loading}>

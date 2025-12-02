@@ -32,6 +32,8 @@ export default function App() {
             <Route path="/user/signup" element={<AuthForm isAdmin={false} />} />
             <Route path="/admin/login" element={<AuthForm isAdmin={true} />} />
             <Route path="/admin/signup" element={<AuthForm isAdmin />} />
+            {/* <Route path="/oauth/callback" element={<GoogleCallback />} /> */}
+
             {/* <Route path="/navbar" element={<Navbar />} /> */}
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<LoginForm />} />
