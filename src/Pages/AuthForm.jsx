@@ -24,7 +24,8 @@ export default function AuthForm({ isAdmin = false }) {
 
   const googleLogin = async () => {
     try {
-      const res = await api.post("/oauth"); // from your OAuth.router
+      const res = await api.post("/oauth"); 
+      console.log(res)
       window.location.href = res.data.url; // redirect to Google page
     } catch (err) {
       console.error(err);

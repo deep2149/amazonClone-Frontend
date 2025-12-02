@@ -25,7 +25,7 @@ export default function ProductCard({ product }) {
       )}
 
       {/* Product Info */}
-      <h3 className="text-lg font-semibold text-gray-800 mb-1">
+      <h3 className="text-lg font-semibold text-gray-800 mb-1  ">
         {product.title}
       </h3>
       <p className="text-gray-500 text-sm mb-2 line-clamp-2">

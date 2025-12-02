@@ -19,6 +19,7 @@ import Dashboard from "./Pages/Dashboard";
 import AdminCategoryPage from "./Pages/Category";
 import BannerPage from "./Pages/Banner";
 import Home from "./Pages/Home";
+import GoogleCallback from "./Pages/GoogleCallback";
 // import AdminProductPage from "./Pages/AdminProductPage";
 // import AdminCreateOrder from "./Pages/AdminOrder";
 
@@ -32,7 +33,7 @@ export default function App() {
             <Route path="/user/signup" element={<AuthForm isAdmin={false} />} />
             <Route path="/admin/login" element={<AuthForm isAdmin={true} />} />
             <Route path="/admin/signup" element={<AuthForm isAdmin />} />
-            {/* <Route path="/oauth/callback" element={<GoogleCallback />} /> */}
+            <Route path="/oauth/callback" element={<GoogleCallback />} />
 
             {/* <Route path="/navbar" element={<Navbar />} /> */}
             <Route path="/signup" element={<SignUp />} />

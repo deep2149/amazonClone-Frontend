@@ -138,7 +138,7 @@ export default function AdminProducts() {
           <option value="">Category Id</option>
           {categories.map((cat)=>(  
              <option key={cat.id} value={cat.id}>
-              {cat.name} 
+              {cat.name} {cat.type}
              </option>        
           ))}
         </select>
