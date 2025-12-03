@@ -22,13 +22,17 @@ export default function AuthForm({ isAdmin = false }) {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Google Login
   const googleLogin = async () => {
     try {
-      const res = await api.post("/oauth"); 
-      console.log(res)
-      window.location.href = res.data.url; // redirect to Google page
+      const res = await api.post("/oauth");
+      if (res.data?.url) {
+        window.location.href = res.data.url; // redirect to Google OAuth page
+      } else {
+        setError("Google login URL not received from server.");
+      }
     } catch (err) {
-      console.error(err);
+      console.error("Google OAuth start error:", err);
       setError("Failed to start Google login");
     }
   };
@@ -62,20 +66,14 @@ export default function AuthForm({ isAdmin = false }) {
       const userType = isAdmin ? "admin" : "user";
       const endpoint = isLogin ? `/${userType}/login` : `/${userType}/signup`;
       const payload = isLogin ? { email, password } : { email, password, name };
-      console.log("Submitting to:", endpoint, "with payload:", payload);
 
       const res = await api.post(endpoint, payload);
-      console.log("Response from server:", res.data);
       const token = res.data?.token;
 
-      if (!token) {
-        throw new Error("No token received from server");
-      }
+      if (!token) throw new Error("No token received from server");
 
-      // Login will fetch user data from /me endpoint
       await login(token);
 
-      // Navigate based on role
       navigate(isAdmin ? "/admin/product" : "/user/products", {
         replace: true,
       });
@@ -111,6 +109,7 @@ export default function AuthForm({ isAdmin = false }) {
             />
           </div>
         )}
+
         <div className="mb-3">
           <label className="block text-sm">Email</label>
           <input
@@ -123,6 +122,7 @@ export default function AuthForm({ isAdmin = false }) {
             required
           />
         </div>
+
         <div className="mb-3">
           <label className="block text-sm">Password</label>
           <input
@@ -135,6 +135,7 @@ export default function AuthForm({ isAdmin = false }) {
             required
           />
         </div>
+
         {!isLogin && (
           <div className="mb-3">
             <label className="block text-sm">Confirm Password</label>
@@ -149,7 +150,9 @@ export default function AuthForm({ isAdmin = false }) {
             />
           </div>
         )}
+
         {error && <p className="text-red-500 text-sm mt-1 mb-2">{error}</p>}
+
         <Button type="submit" disabled={loading} className="w-full text-black">
           {loading
             ? isLogin
@@ -160,6 +163,7 @@ export default function AuthForm({ isAdmin = false }) {
             : "Sign Up"}
         </Button>
 
+        {/* Google Login Button */}
         <Button
           type="button"
           onClick={googleLogin}
@@ -168,6 +172,7 @@ export default function AuthForm({ isAdmin = false }) {
           Continue with Google
         </Button>
       </form>
+
       <p style={{ marginTop: 12, fontSize: 14 }}>
         {isLogin ? "Don't have an account? " : "Already have an account? "}
         <span

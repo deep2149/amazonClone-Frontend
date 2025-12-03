@@ -17,15 +17,15 @@ export default function GoogleCallback() {
       try {
         const res = await api.post("/oauth/oauth-verify", { code });
 
-        // Existing user → auto login
+        // IF EXISTING USER then LOGIN
         if (res.data.token) {
           await login(res.data.token);
-          return navigate("/user/products", { replace: true });
+          return navigate("/user/products", { replace: true }); 
         }
 
-        // New user → redirect to a "complete profile" page
-        navigate("/complete-signup", {
-          state: res.data, // pass name, email, picture
+        // IF NEW USER then register
+        return navigate("/signup", {
+          state: res.data, 
         });
       } catch (err) {
         console.error(err);
@@ -35,5 +35,5 @@ export default function GoogleCallback() {
     verifyGoogle();
   }, []);
 
-  return <p>Verifying Google Login...</p>;
+  return <p className="text-center mt-10">Verifying Google Login...</p>;
 }
