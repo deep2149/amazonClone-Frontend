@@ -24,7 +24,7 @@ export default function GoogleCallback() {
         }
 
         // IF NEW USER then register
-        return navigate("/signup", {
+        return navigate("/admin/signup", {
           state: res.data, 
         });
       } catch (err) {
