@@ -20,7 +20,7 @@ export default function GoogleCallback() {
         // IF EXISTING USER then LOGIN
         if (res.data.token) {
           await login(res.data.token);
-          return navigate("/user/products", { replace: true }); 
+          return navigate("/admin/products", { replace: true }); 
         }
 
         // IF NEW USER then register
